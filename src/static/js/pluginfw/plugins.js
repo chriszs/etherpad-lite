@@ -53,8 +53,9 @@ exports.formatHooks = function () {
 
 exports.loadFn = function (path, hookName) {
   var x = path.split(":");
-  var fn = require(x[0]);
-  var functionName = x[1] ? x[1] : hookName;  
+  var y = x.pop();
+  var fn = require(x.join(":"));
+  var functionName = y ? y : hookName;
   
   _.each(functionName.split("."), function (name) {
     fn = fn[name];

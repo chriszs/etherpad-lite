@@ -90,11 +90,11 @@ var padeditor = (function()
 
       var v;
 
-      v = getOption('showLineNumbers', true);
+      v = getOption('showLineNumbers', false);
       self.ace.setProperty("showslinenumbers", v);
       padutils.setCheckbox($("#options-linenoscheck"), v);
 
-      v = getOption('showAuthorColors', true);
+      v = getOption('showAuthorColors', false);
       self.ace.setProperty("showsauthorcolors", v);
       padutils.setCheckbox($("#options-colorscheck"), v);
       // Override from parameters if true

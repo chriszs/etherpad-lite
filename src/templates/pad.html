@@ -22,20 +22,21 @@
 
         <% e.begin_block("body"); %>
         <div id="editbar" class="toolbar">
+        	<div class="toolbarwrapper">
             <ul class="menu_left">
                 <% e.begin_block("editbarMenuLeft"); %>
                 <li id="bold" data-key="bold">
-                    <a class="grouped-left" title="Bold (ctrl-B)">
+                    <a class="grouped-left" title="Bold (Ctrl+B)">
                       <span class="buttonicon buttonicon-bold"></span>
                     </a>
                 </li>
                 <li id="italic" data-key="italic">
-                    <a class="grouped-middle" title="Italics (ctrl-I)">
+                    <a class="grouped-middle" title="Italics (Ctrl+I)">
                       <span class="buttonicon buttonicon-italic"></span>
                     </a>
                 </li>
                 <li id="underline" data-key="underline">
-                    <a class="grouped-middle" title="Underline (ctrl-U)">
+                    <a class="grouped-middle" title="Underline (Ctrl+U)">
                       <span class="buttonicon buttonicon-underline"></span>
                     </a>
                 </li>
@@ -46,22 +47,23 @@
                 </li>
                 <li class="separator"></li>
                 <li id="oderedlist" data-key="insertorderedlist">
-                    <a class="grouped-left" title="Toggle Ordered List">
+                    <a class="grouped-left" title="Numbered List">
                       <span class="buttonicon buttonicon-insertorderedlist"></span>
                     </a>
                 </li>
                 <li id="unoderedlist" data-key="insertunorderedlist">
-                    <a class="grouped-middle" title="Toggle Bullet List">
+                    <a class="grouped-right" title="Bulleted List">
                       <span class="buttonicon buttonicon-insertunorderedlist"></span>
                     </a>
                 </li>
+                <!--
                 <li id="indent" data-key="indent">
-                    <a class="grouped-middle" title="Indent">
+                    <a class="grouped-middle" title="Indent (Tab)">
                       <span class="buttonicon buttonicon-indent"></span>
                     </a>
                 </li>
                 <li id="outdent" data-key="outdent">
-                    <a class="grouped-right" title="Unindent">
+                    <a class="grouped-right" title="Unindent (Shift-Tab)">
                       <span class="buttonicon buttonicon-outdent"></span>
                     </a>
                 </li>
@@ -82,30 +84,35 @@
                       <span class="buttonicon buttonicon-clearauthorship"></span>
                     </a>
                 </li>
+                -->
                 <% e.end_block(); %>
             </ul>
             <ul class="menu_right">
                 <% e.begin_block("editbarMenuRight"); %>
+                <!--
                 <li data-key="settings">
                     <a class="grouped-left" id="settingslink" title="Settings of this pad">
                         <span class="buttonicon buttonicon-settings"></span>
                     </a>
                 </li>
+                -->
                 <li data-key="import_export">
-                    <a class="grouped-middle" id="importexportlink" title="Import/Export from/to different document formats">
+                    <a class="grouped-left" id="importexportlink" title="Import/Export from/to different document formats">
                         <span class="buttonicon buttonicon-import_export"></span>
                     </a>
                 </li>
                 <li data-key="embed">
-                    <a class="grouped-middle" id="embedlink" title="Share and Embed this pad">
+                    <a class="grouped-right" id="embedlink" title="Share and Embed this pad">
                         <span class="buttonicon buttonicon-embed"></span>
                     </a>
                 </li>
+                <!--
                 <li data-key="savedRevision">
                     <a class="grouped-right" id="revisionlink" title="Mark this revision as a saved revision">
                         <span class="buttonicon buttonicon-savedRevision"></span>
                     </a>
                 </li>
+                -->
                 <li class="separator"></li>
                 <li onClick="document.location = document.location.pathname+ '/timeslider'">
                     <a id="timesliderlink" title="Show the history of this pad">
@@ -120,6 +127,7 @@
                 </li>
                 <% e.end_block(); %>
             </ul>
+            </div>
         </div>
 
         <div id="users">
@@ -240,7 +248,7 @@
 
         <div id="chatthrob"></div>
 
-        <div id="chaticon" title="Open the chat for this pad" onclick="chat.show();return false;">
+        <div id="chaticon" title="Open the chat for this pad" onClick="chat.show();return false;">
             <span id="chatlabel">Chat</span>
             <span class="buttonicon buttonicon-chat"></span>
             <span id="chatcounter">0</span>
