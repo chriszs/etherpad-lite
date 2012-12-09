@@ -94,14 +94,11 @@ var padeditor = (function()
 
       var v;
 
-<<<<<<< HEAD
-      v = getOption('showLineNumbers', false);
-=======
       v = getOption('rtlIsTrue', false);
       self.ace.setProperty("rtlIsTrue", v);
 
       v = getOption('showLineNumbers', true);
->>>>>>> upstream/master
+	  
       self.ace.setProperty("showslinenumbers", v);
       padutils.setCheckbox($("#options-linenoscheck"), v);
 

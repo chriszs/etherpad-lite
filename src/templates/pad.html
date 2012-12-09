@@ -54,6 +54,7 @@
 
         <% e.begin_block("body"); %>
         <div id="editbar" class="toolbar">
+			<div class="toolbarwrapper">
             <div id="overlay">
                 <div id="overlay-inner"></div>
             </div>
@@ -90,6 +91,7 @@
                       <span class="buttonicon buttonicon-insertunorderedlist"></span>
                     </a>
                 </li>
+				<!--
                 <li class="acl-write" id="indent" data-key="indent">
                     <a class="grouped-middle" data-l10n-id="pad.toolbar.indent">
                       <span class="buttonicon buttonicon-indent"></span>
@@ -117,7 +119,7 @@
                       <span class="buttonicon buttonicon-clearauthorship"></span>
                     </a>
                 </li>
-                -->
+				-->
                 <% e.end_block(); %>
             </ul>
             <ul class="menu_right">
@@ -138,6 +140,7 @@
                     </a>
                 </li>
                 <li class="acl-write separator"></li>
+				<!--
                 <li class="acl-write" data-key="settings">
                     <a class="grouped-left" id="settingslink" data-l10n-id="pad.toolbar.settings">
                         <span class="buttonicon buttonicon-settings"></span>
@@ -149,6 +152,7 @@
                     </a>
                 </li>
                 <li class="separator"></li>
+				-->
                 <li id="usericon" data-key="showusers">
                     <a data-l10n-id="pad.toolbar.showusers">
                         <span class="buttonicon buttonicon-showusers"></span>
@@ -158,6 +162,7 @@
                 <% e.end_block(); %>
             </ul>
             </div>
+			</div>
         </div>
 
         <div id="users">
