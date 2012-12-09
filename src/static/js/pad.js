@@ -43,6 +43,7 @@ var padmodals = require('./pad_modals').padmodals;
 var padsavedrevs = require('./pad_savedrevs');
 var paduserlist = require('./pad_userlist').paduserlist;
 var padutils = require('./pad_utils').padutils;
+var colorutils = require('./colorutils').colorutils;
 
 var createCookie = require('./pad_utils').createCookie;
 var readCookie = require('./pad_utils').readCookie;
@@ -63,7 +64,13 @@ function createCookie(name, value, days, path)
   if(!path)
     path = "/";
   
-  document.cookie = name + "=" + value + expires + "; path=" + path;
+  //Check if the browser is IE and if so make sure the full path is set in the cookie
+  if(navigator.appName=='Microsoft Internet Explorer'){
+    document.cookie = name + "=" + value + expires + "; path="+document.location;
+  }
+  else{
+    document.cookie = name + "=" + value + expires + "; path=" + path;
+  }
 }
 
 function readCookie(name)
@@ -98,11 +105,13 @@ function getParams()
   var showControls = params["showControls"];
   var showChat = params["showChat"];
   var userName = params["userName"];
+  var userColor = params["userColor"];
   var showLineNumbers = params["showLineNumbers"];
   var useMonospaceFont = params["useMonospaceFont"];
   var IsnoColors = params["noColors"];
   var rtl = params["rtl"];
   var alwaysShowChat = params["alwaysShowChat"];
+  var lang = params["lang"];
 
   if(IsnoColors)
   {
@@ -146,6 +155,11 @@ function getParams()
     // If the username is set as a parameter we should set a global value that we can call once we have initiated the pad.
     settings.globalUserName = decodeURIComponent(userName);
   }
+  if(userColor)
+    // If the userColor is set as a parameter, set a global value to use once we have initiated the pad.
+  {
+    settings.globalUserColor = decodeURIComponent(userColor);
+  }
   if(rtl)
   {
     if(rtl == "true")
@@ -158,6 +172,13 @@ function getParams()
     if(alwaysShowChat == "true")
     {
       chat.stickToScreen();
+    }
+  }
+  if(lang)
+  {
+    if(lang !== "")
+    {
+      document.webL10n.setLanguage(lang);
     }
   }
 }
@@ -183,12 +204,6 @@ function savePassword()
   document.location=document.location;
 }
 
-function ieTestXMLHTTP(){
-  // Test for IE known XML HTTP issue
-  if ($.browser.msie && !window.XMLHttpRequest){
-    $("#editorloadingbox").html("You do not have XML HTTP enabled in your browser. <a target='_blank' href='https://github.com/Pita/etherpad-lite/wiki/How-to-enable-native-XMLHTTP-support-in-IE'>Fix this issue</a>");
-  }
-}
 function handshake()
 {
   var loc = document.location;
@@ -310,13 +325,19 @@ function handshake()
       receivedClientVars = true;
 
       //set some client vars
-      clientVars = obj;
+      clientVars = obj.data;
       clientVars.userAgent = "Anonymous";
       clientVars.collab_client_vars.clientAgent = "Anonymous";
-
+ 
       //initalize the pad
       pad._afterHandshake();
       initalized = true;
+
+      $("body").addClass(clientVars.readonly ? "readonly" : "readwrite")
+
+      padeditor.ace.callWithAce(function (ace) {
+        ace.ace_setEditable(!clientVars.readonly);
+      });
 
       // If the LineNumbersDisabled value is set to true then we need to hide the Line Numbers
       if (settings.LineNumbersDisabled == true)
@@ -347,6 +368,14 @@ function handshake()
         pad.myUserInfo.name = settings.globalUserName;
         $('#myusernameedit').attr({"value":settings.globalUserName}); // Updates the current users UI
       }
+      if (settings.globalUserColor !== false && colorutils.isCssHex(settings.globalUserColor))
+      {
+
+        // Add a 'globalUserColor' property to myUserInfo, so collabClient knows we have a query parameter.
+        pad.myUserInfo.globalUserColor = settings.globalUserColor;
+        pad.notifyChangeColor(settings.globalUserColor); // Updates pad.myUserInfo.colorId
+        paduserlist.setMyUserInfo(pad.myUserInfo);
+      }
     }
     //This handles every Message after the clientVars
     else
@@ -354,6 +383,8 @@ function handshake()
       //this message advices the client to disconnect
       if (obj.disconnect)
       {
+        console.warn("FORCED TO DISCONNECT");
+        console.warn(obj);
         padconnectionstatus.disconnected(obj.disconnect);
         socket.disconnect();
         return;
@@ -366,6 +397,10 @@ function handshake()
   });
   // Bind the colorpicker
   var fb = $('#colorpicker').farbtastic({ callback: '#mycolorpickerpreview', width: 220});
+  // Bind the read only button  
+  $('#readonlyinput').on('click',function(){
+    padeditbar.setEmbedLinks();
+  });
 }
 
 var pad = {
@@ -424,6 +459,7 @@ var pad = {
   {
     pad.collabClient.sendClientMessage(msg);
   },
+  createCookie: createCookie,
 
   init: function()
   {
@@ -431,8 +467,6 @@ var pad = {
 
     $(document).ready(function()
     {
-      // test for XML HTTP capabiites
-      ieTestXMLHTTP();
       // start the custom js
       if (typeof customStart == "function") customStart();
       getParams();
@@ -782,8 +816,6 @@ var pad = {
       }, 1000);
     }
 
-    padsavedrevs.handleIsFullyConnected(isConnected);
-
     // pad.determineSidebarVisibility(isConnected && !isInitialConnect);
     pad.determineChatVisibility(isConnected && !isInitialConnect);
     pad.determineAuthorshipColorsVisibility();
@@ -1011,6 +1043,7 @@ var settings = {
 , noColors: false
 , useMonospaceFontGlobal: false
 , globalUserName: false
+, globalUserColor: false
 , rtlIsTrue: false
 };
 

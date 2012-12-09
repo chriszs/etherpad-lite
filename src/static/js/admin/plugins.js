@@ -15,7 +15,7 @@ $(document).ready(function () {
   $('.search-results').data('query', {
     pattern: '',
     offset: 0,
-    limit: 4,
+    limit: 12,
   });
 
   var doUpdate = false;
@@ -126,6 +126,7 @@ $(document).ready(function () {
   socket.on('installed-results', function (data) {
     $("#installed-plugins *").remove();
     for (plugin_name in data.results) {
+      if (plugin_name == "ep_etherpad-lite") continue; // Hack...
       var plugin = data.results[plugin_name];
       var row = $("#installed-plugin-template").clone();
 

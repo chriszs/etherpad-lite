@@ -1,9 +1,14 @@
 var plugins = require("ep_etherpad-lite/static/js/pluginfw/plugins");
 var hooks = require("ep_etherpad-lite/static/js/pluginfw/hooks");
 var npm = require("npm");
-var registry = require("npm/lib/utils/npm-registry-client/index.js");
+var RegClient = require("npm-registry-client")
 
-var withNpm = function (npmfn, cb) {
+var registry = new RegClient(
+{ registry: "http://registry.npmjs.org"
+, cache: npm.cache }
+);
+
+var withNpm = function (npmfn, final, cb) {
   npm.load({}, function (er) {
     if (er) return cb({progress:1, error:er});
     npm.on("log", function (message) {
@@ -15,6 +20,7 @@ var withNpm = function (npmfn, cb) {
       data.progress = 1;
       data.message = "Done.";
       cb(data);
+      final();
     });
   });
 }
@@ -36,6 +42,9 @@ exports.uninstall = function(plugin_name, cb) {
         });
       });
     },
+    function () {
+      hooks.aCallAll("restartServer", {}, function () {});                
+    },
     cb
   );
 };
@@ -51,6 +60,9 @@ exports.install = function(plugin_name, cb) {
         });
       });
     },
+    function () {
+      hooks.aCallAll("restartServer", {}, function () {});                
+    },
     cb
   );
 };
@@ -65,7 +77,7 @@ exports.search = function(query, cache, cb) {
           cb(null, exports.searchCache);
         } else {
           registry.get(
-            "/-/all", null, 600, false, true,
+            "/-/all", 600, false, true,
             function (er, data) {
               if (er) return cb(er);
               exports.searchCache = data;
@@ -93,6 +105,7 @@ exports.search = function(query, cache, cb) {
         }
       );
     },
+    function () { },
     cb
   );
 };

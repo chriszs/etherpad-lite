@@ -56,10 +56,10 @@ exports.basicAuth = function (req, res, next) {
       res.header('WWW-Authenticate', 'Basic realm="Protected Area"');
       if (req.headers.authorization) {
         setTimeout(function () {
-          res.send('Authentication required', 401);
+          res.send(401, 'Authentication required');
         }, 1000);
       } else {
-        res.send('Authentication required', 401);
+        res.send(401, 'Authentication required');
       }
     }));
   }
@@ -88,22 +88,29 @@ exports.basicAuth = function (req, res, next) {
   });
 }
 
+exports.secret = null;
+
 exports.expressConfigure = function (hook_name, args, cb) {
   // If the log level specified in the config file is WARN or ERROR the application server never starts listening to requests as reported in issue #158.
   // Not installing the log4js connect logger when the log level has a higher severity than INFO since it would not log at that level anyway.
   if (!(settings.loglevel === "WARN" || settings.loglevel == "ERROR"))
     args.app.use(log4js.connectLogger(httpLogger, { level: log4js.levels.INFO, format: ':status, :method :url'}));
-  args.app.use(express.cookieParser());
 
   /* Do not let express create the session, so that we can retain a
    * reference to it for socket.io to use. Also, set the key (cookie
    * name) to a javascript identifier compatible string. Makes code
    * handling it cleaner :) */
 
-  args.app.sessionStore = new express.session.MemoryStore();
+  if (!exports.sessionStore) {
+    exports.sessionStore = new express.session.MemoryStore();
+    exports.secret = randomString(32);
+  }
+  
+  args.app.use(express.cookieParser(exports.secret));
+
+  args.app.sessionStore = exports.sessionStore;
   args.app.use(express.session({store: args.app.sessionStore,
-                                key: 'express_sid',
-                                secret: apikey = randomString(32)}));
+                                key: 'express_sid' }));
 
   args.app.use(exports.basicAuth);
 }

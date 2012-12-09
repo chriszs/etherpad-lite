@@ -21,9 +21,12 @@ var path = require('path');
 var zlib = require('zlib');
 var util = require('util');
 var settings = require('./Settings');
+var semver = require('semver');
+
+var existsSync = (semver.satisfies(process.version, '>=0.8.0')) ? fs.existsSync : path.existsSync
 
 var CACHE_DIR = path.normalize(path.join(settings.root, 'var/'));
-CACHE_DIR = path.existsSync(CACHE_DIR) ? CACHE_DIR : undefined;
+CACHE_DIR = existsSync(CACHE_DIR) ? CACHE_DIR : undefined;
 
 var responseCache = {};
 
@@ -45,7 +48,7 @@ CachingMiddleware.prototype = new function () {
     var old_res = {};
 
     var supportsGzip =
-        req.header('Accept-Encoding', '').indexOf('gzip') != -1;
+        (req.get('Accept-Encoding') || '').indexOf('gzip') != -1;
 
     var path = require('url').parse(req.url).path;
     var cacheKey = (new Buffer(path)).toString('base64').replace(/[\/\+=]/g, '');
