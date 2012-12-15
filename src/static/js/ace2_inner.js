@@ -944,8 +944,8 @@ function Ace2Inner(){
       showsuserselections: setClassPresenceNamed(root, "userSelections"),
       showslinenumbers : function(value){
         hasLineNumbers = !! value;
-        // disable line numbers on mobile devices
-        if (browser.mobile) hasLineNumbers = false;
+        // disable line numbers
+        hasLineNumbers = false;
         setClassPresence(sideDiv, "sidedivhidden", !hasLineNumbers);
         fixView();
       },

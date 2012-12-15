@@ -42,7 +42,7 @@ exports.expressCreateServer = function (hook_name, args, cb) {
   // IE8 with Native XMLHTTP support
   // IE8 without Native XMLHTTP support
   // Chrome 21.0.1180.79
-  io.set('transports', ['jsonp-polling']);
+ // io.set('transports', ['jsonp-polling']);
 
   var socketIOLogger = log4js.getLogger("socket.io");
   io.set('logger', {
