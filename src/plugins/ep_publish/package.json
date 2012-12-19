@@ -1,0 +1,24 @@
+{
+  "description": "Adds support for publishing to Etherpad Lite.",
+  "name": "ep_publish",
+  "version": "0.1.4",
+  "author": "Chris Zubak-Skees <chriszs@gmail.com>",
+  "contributors": [
+  	{
+		"name": "Matthias Bartelmeß",
+  		"email": "mba@fourplusone.de"
+	}
+  ],
+  "dependencies": {
+                      "xmlrpc"              : "1.1.0"
+                  },
+  "engines": {
+    "node": "*"
+  },
+  "homepage": "https://github.com/chriszs/ep_publish",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chriszs/ep_publish.git"
+  }
+}

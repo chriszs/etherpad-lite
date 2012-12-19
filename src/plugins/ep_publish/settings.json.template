@@ -1,0 +1,15 @@
+/*
+edit these values and copy to settings.json
+*/
+{
+  "pathToEtherpad" : "ep_etherpad-lite/",
+  "publishTo" : [{
+    "type" : "wordpress",
+    "host" : "example.com",
+    "port" : 80,
+    "path" : "/xmlrpc.php",
+    "user" : "Larry.Page",
+    "pass" : "Goooooogle",
+    "status" : "draft"
+    }]
+}

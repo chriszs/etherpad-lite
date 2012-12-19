@@ -1,0 +1,9 @@
+.git*
+docs/
+examples/
+support/
+test/
+testing.js
+.DS_Store
+.ep_initialized
+node_modules
