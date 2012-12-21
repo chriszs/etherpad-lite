@@ -1,0 +1,66 @@
+<style type="text/css">
+#style-selection {
+    position: absolute;
+    display: block;
+    top: 36px;
+    left: 400px;
+    z-index: 500;
+    display: none;
+    padding: 0px;
+    background-color: #F7F7F7;
+    border:1px solid rgb(100,100,100);
+}
+#style-selection li {
+    float: none;
+    list-style-type: none;
+    max-width: 250px;
+    min-width: 100px;
+    border: 1px solid #CCC;
+    background-color: white;
+    font-size: 14px;
+    vertical-align: middle;
+    display: block;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#style-selection li * {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    min-width: 100px;
+    vertical-align: middle;
+}
+#style-selection h1 { font-size: 2em; }
+#style-selection h2 { font-size: 1.5em; }
+#style-selection h3 { font-size: 1.17em; }
+#style-selection h5 { font-size: .83em; }
+#style-selection h6 { font-size: .75em; }
+#style-selection a {
+    font-family:Arial,sans-serif;
+    color:black;
+    text-decoration: none;
+}
+#style-selection li div.label {
+    font-size:8px;
+    color:#CCC;
+}
+</style>
+
+<li class="separator acl-write"></li>
+<li id="styles" class="acl-write">
+    <a href="#">Styles</a>
+    <div id="style-selection">
+        <ul>
+            <li value="-1"><a href="#">Normal</a></li>
+            <li value="0"><h1><a href="#">Heading 1</a></h1></li>
+            <li value="1"><h2><a href="#">Heading 2</a></h2></li>
+            <li value="2"><h3><a href="#">Heading 3</a></h3></li>
+            <li value="3"><h4><a href="#">Heading 4</a></h4></li>
+            <li value="4"><h5><a href="#">Heading 5</a></h5></li>
+            <li value="5"><h6><a href="#">Heading 6</a></h6></li>
+        </ul>
+    </div>
+</li>

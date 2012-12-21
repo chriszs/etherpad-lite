@@ -1,7 +1,7 @@
 {
-  "description": "Adds support for publishing to Etherpad Lite.",
-  "name": "ep_publish",
-  "version": "0.1.4",
+  "description": "Adds selectable styles to Etherpad Lite.",
+  "name": "ep_styles",
+  "version": "0.1",
   "author": "Chris Zubak-Skees <chriszs@gmail.com>",
   "contributors": [
   	{
@@ -9,13 +9,11 @@
   		"email": "mba@fourplusone.de"
 	}
   ],
-  "dependencies": {
-                      "xmlrpc"              : "1.1.0"
-                  },
+  "dependencies": {},
   "engines": {
     "node": "*"
   },
-  "homepage": "https://github.com/chriszs/ep_publish",
+  "homepage": "https://github.com/chriszs/etherpad-lite/tree/master/src/plugins/ep_styles",
   "devDependencies": {},
   "repository": {
     "type": "git",
